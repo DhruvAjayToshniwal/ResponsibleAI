@@ -65,6 +65,19 @@ A 14-year-old girl from Napoli (Italy) was suffocated due to an allergic reactio
 
 The code for this project can be found in this repository.
 
+Explanation 
+1) Data Generation Script
+The data generation script is responsible for creating synthetic datasets representing user behavior on a video-sharing platform. The datasets contain information about the videos watched by multiple users, including video title, uploader, and hours watched.
+
+The script generates five separate CSV files, each with 15,000 rows. Each row represents a video watched by a user. The datasets include a mix of normal videos (e.g., chess, music, or gaming) and challenge videos, with a special focus on the "Condom Challenge" to align with the case study.
+
+2) Recommendation System
+The optimized recommendation system is designed to provide personalized video recommendations based on user behavior while minimizing memory usage. It uses a hybrid approach that combines item-based collaborative filtering with content-based filtering using video titles.
+
+The recommendation system processes each CSV file separately to reduce the memory footprint. For each user, it calculates the cosine similarity between video titles in the dataset. The cosine similarity is a measure of similarity between two vectors, in this case, the TF-IDF (term frequency-inverse document frequency) vectors of the video titles. The higher the cosine similarity, the more related the two video titles are.
+
+The system accumulates similarity scores for each recommended video and returns the top 3 recommendations with the highest accumulated scores. This approach leverages the information about the videos watched by a user to provide personalized recommendations.
+
 ## Auditing Plan
 
 The auditing plan will be developed at a later stage of the project, considering the following aspects:
