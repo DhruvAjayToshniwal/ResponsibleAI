@@ -1,66 +1,48 @@
-import csv
-import random
 import pandas as pd
+import numpy as np
+import random
+import math
 
-platforms = ["YouTube", "TikTok"]
-challenge_titles = [
-    "Condom Snorting Challenge",
-    "The Fire Challenge",
-    "Tide Pod Eating Challenge",
-    "Inhaling Cinnamon Challenge",
-    "Hot Coil Challenge",
-    "Choking Game Challenge",
-    "Drinking Boiling Water Challenge",
-    "The Deodorant Challenge",
-    "Salt and Ice Challenge",
-    "The Duct Tape Challenge",
-]
+def create_dataset(file_number):
+    users = ["Dhruv", "Ron", "Inbar", "Daniel", "Mor", "Guy", "Memi", "Giulia"]
+    video_types = ["Csgo", "Music", "Csgo", "Football", "Cooking", "Football", "Chess", "Fashion", "Beauty", "Documentary", "Education", "DIY", "Talk show", "Car review", "Animal", "Art", "News", "Fitness", "Product unboxing", "Yoga"]
+    video_challenges = ["Ice Bucket Challenge", "Cinnamon Challenge", "Condom Challenge", "Mannequin Challenge", "Hot Pepper Challenge", "Try Not to Laugh Challenge", "Whisper Challenge"]
+    video_genres = video_types + video_challenges
+    video_uploaders = ["Pewdiepie", "Nelk Boys", "Joe Rogan", "Agadmator", "Sean"]
 
-normal_titles = [
-    "Chess Strategy for Beginners",
-    "CS:GO - Best Tips and Tricks",
-    "Top 10 Pop Music Hits",
-    "How to Play Guitar - Beginner Lesson",
-    "Meditation for Stress Relief",
-    "Yoga for Flexibility and Strength",
-    "Photography Tips for Stunning Photos",
-    "Basic Cooking Techniques for Beginners",
-    "Travel Guide: Top 10 Places to Visit",
-    "DIY Home Decoration Ideas",
-]
-
-users = ["Dhruv", "Ron", "Inbar", "Daniel", "Mor", "Guy", "Memi"]
-
-def generate_data(file_number):
     data = []
-    for i in range(1, 9001):
-        platform = random.choice(platforms)
-        uploader = random.choice(users)
-        view_count = random.randint(10000, 5000000)
-        likes = random.randint(1000, 150000)
-        dislikes = random.randint(500, 50000)
-        duration = random.randint(1, 60)
-        hours_played = round(view_count * duration * random.uniform(0.0001, 0.0002), 2)
+    for _ in range(15000):
+        user = random.choice(users)
+        video_type = random.choice(video_types)
+        uploader = random.choice(video_uploaders)
 
-        if i % file_number == 0 and uploader == "Mor":
-            title = "Condom Snorting Challenge"
-        elif i % file_number == 0:
-            title = random.choice(challenge_titles)
+        if user == "Giulia":
+            if random.random() < 0.7:
+                video_title = f"Condom Challenge by {uploader}"
+            else:
+                if video_type == "Challenge":
+                    video_title = f"{random.choice(video_challenges)} by {uploader}"
+                else:
+                    video_title = f"{video_type} video by {uploader}"
         else:
-            title = random.choice(normal_titles)
+            if video_type == "Challenge":
+                video_title = f"{random.choice(video_challenges)} by {uploader}"
+            else:
+                video_title = f"{video_type} video by {uploader}"
 
-        data.append(
-            [i, platform, f"{title} - {platform}", uploader, view_count, likes, dislikes, duration, hours_played]
-        )
-    return data
+        duration = random.randint(1, 60) # in minutes
+        view_count = random.randint(1000, 100000)
+        num_watched = random.choices([1, 2, 3, 4, 5], weights=[0.9, 0.025, 0.025, 0.025, 0.025])[0]
+        user_time = random.randint(math.ceil(duration * 0.3), duration*num_watched) # in minutes
+        likes = random.randint(0, view_count)
+        dislikes = random.randint(0, view_count)
+        comments = random.randint(0, view_count)
+        shares = random.randint(0, comments)
 
-def write_csv(data, filename="dataset.csv"):
-    with open(filename, mode="w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow(["Video_ID", "Platform", "Title", "Uploader", "View_Count", "Likes", "Dislikes", "Duration", "Hours_Played"])
-        writer.writerows(data)
+        data.append([user, video_title, duration, view_count, user_time, num_watched, likes, dislikes, shares, comments])
 
-if __name__ == "__main__":
-    for i in range(1, 6):
-        data = generate_data(i)
-        write_csv(data, f"dataset_{i}.csv")
+    df = pd.DataFrame(data, columns=["User", "Title", "Duration", "ViewCount", "UserTime", "NumberOfTimesWatched", "Likes", "Dislikes", "Shares", "Comments"])
+    df.to_csv(f"dataset_{file_number}.csv", index=False)
+
+for i in range(1, 6):
+    create_dataset(i)
