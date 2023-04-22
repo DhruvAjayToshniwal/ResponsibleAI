@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from collections import defaultdict
+import matplotlib.pyplot as plt
 
 def process_chunk(chunk, user, recommendations):
     tfidf_vectorizer = TfidfVectorizer(stop_words="english")
@@ -11,16 +11,17 @@ def process_chunk(chunk, user, recommendations):
     cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
     for idx, row in chunk.iterrows():
-        if row["Uploader"] == user:
+        if row["User"] == user:
             sim_scores = list(enumerate(cosine_sim[idx]))
             sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
             sim_scores = sim_scores[1:6]
 
             for video, score in sim_scores:
                 title = chunk.iloc[video]["Title"]
-                recommendations[title] += 1
+                engagement_score = (chunk.iloc[video]["UserTime"] * chunk.iloc[video]["Likes"] * chunk.iloc[video]["Shares"]) / (chunk.iloc[video]["Dislikes"] + 1)
+                recommendations[title] += engagement_score * chunk.iloc[video]["NumberOfTimesWatched"]
 
-users = ["Dhruv", "Ron", "Inbar", "Daniel", "Mor", "Guy", "Memi"]
+users = ["Dhruv", "Ron", "Inbar", "Daniel", "Mor", "Guy", "Memi", "Giulia"]
 
 for user in users:
     print(f"Top 3 recommendations for {user}:")
@@ -35,25 +36,3 @@ for user in users:
 
     print(top_recommendations)
     print()
-
-import matplotlib.pyplot as plt
-
-# Load all datasets and concatenate them
-dfs = [pd.read_csv(f"dataset_{i}.csv") for i in range(1, 6)]
-df = pd.concat(dfs, ignore_index=True)
-
-# Group by title and calculate the sum of hours watched
-grouped_df = df.groupby("Title")["Hours_Played"].sum().reset_index()
-
-# Sort by hours watched
-sorted_df = grouped_df.sort_values("Hours_Played", ascending=False)
-
-# Plot the histogram
-plt.figure(figsize=(12, 6))
-plt.bar(sorted_df["Title"].head(10), sorted_df["Hours_Played"].head(10))
-plt.xlabel("Video Title")
-plt.xticks(rotation=45, ha="right")
-plt.ylabel("Number of Hours Watched")
-plt.title("Top 10 Video Titles vs. Number of Hours Watched")
-plt.show()
-
