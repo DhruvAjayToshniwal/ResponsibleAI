@@ -67,16 +67,30 @@ The code for this project can be found in this repository.
 
 Explanation 
 1) Data Generation Script
-The data generation script is responsible for creating synthetic datasets representing user behavior on a video-sharing platform. The datasets contain information about the videos watched by multiple users, including video title, uploader, and hours watched.
+This is a Python script that generates a synthetic dataset of user video-watching behavior. The script creates a total of 75,000 rows of data across 5 different CSV files (15,000 rows per file) using the pandas library.
 
-The script generates five separate CSV files, each with 15,000 rows. Each row represents a video watched by a user. The datasets include a mix of normal videos (e.g., chess, music, or gaming) and challenge videos, with a special focus on the "Condom Challenge" to align with the case study.
+The dataset consists of the following columns:
+
+User: the user who watched the video
+Title: the title of the video
+Duration: the duration of the video in minutes
+ViewCount: the number of views the video has
+UserTime: the total amount of time the user spent watching the video, in minutes
+NumberOfTimesWatched: the number of times the user watched the video
+Likes: the number of likes the video received
+Dislikes: the number of dislikes the video received
+Shares: the number of times the video was shared
+Comments: the number of comments the video received
+The video titles are generated randomly based on a set of predefined video types, challenges, and uploaders. Certain users (in this case, the user "Giulia") have a higher likelihood of watching videos of a certain type, and may also be recommended certain videos based on their past viewing behavior.
+
+This dataset could be used for various purposes, such as building a recommendation system or analyzing patterns in user video-watching behavior.
 
 2) Recommendation System
-The optimized recommendation system is designed to provide personalized video recommendations based on user behavior while minimizing memory usage. It uses a hybrid approach that combines item-based collaborative filtering with content-based filtering using video titles.
+This code snippet uses a recommendation system to suggest top 3 videos for a list of users based on their video-watching history. The dataset is generated using random sampling and consists of information about users, video titles, duration, view count, user time, number of times watched, likes, dislikes, shares, and comments.
 
-The recommendation system processes each CSV file separately to reduce the memory footprint. For each user, it calculates the cosine similarity between video titles in the dataset. The cosine similarity is a measure of similarity between two vectors, in this case, the TF-IDF (term frequency-inverse document frequency) vectors of the video titles. The higher the cosine similarity, the more related the two video titles are.
+The code reads in the dataset, creates a TF-IDF vector for the video titles, and calculates cosine similarity between the vectors to obtain a similarity matrix. It then uses the similarity matrix to find the most similar videos to those watched by a specific user. These similar videos are then assigned an engagement score based on their user time, likes, dislikes, shares, and number of times watched. The scores are aggregated to create a list of recommendations for each user.
 
-The system accumulates similarity scores for each recommended video and returns the top 3 recommendations with the highest accumulated scores. This approach leverages the information about the videos watched by a user to provide personalized recommendations.
+The output of the code is a list of top 3 video recommendations for each user. These recommendations are generated using data from five different datasets to increase the size of the dataset and improve the accuracy of the recommendations.
 
 ## Auditing Plan
 
