@@ -66,7 +66,7 @@ A 14-year-old girl from Napoli (Italy) was suffocated due to an allergic reactio
 The code for this project can be found in this repository.
 
 Explanation 
-1) Data Generation Script
+1) Data Generation Script:
 This is a Python script that generates a synthetic dataset of user video-watching behavior. The script creates a total of 75,000 rows of data across 5 different CSV files (15,000 rows per file) using the pandas library.
 
 The dataset consists of the following columns:
@@ -85,7 +85,7 @@ The video titles are generated randomly based on a set of predefined video types
 
 This dataset could be used for various purposes, such as building a recommendation system or analyzing patterns in user video-watching behavior.
 
-2) Recommendation System
+2) Recommendation System:
 This code snippet uses a recommendation system to suggest top 3 videos for a list of users based on their video-watching history. The dataset is generated using random sampling and consists of information about users, video titles, duration, view count, user time, number of times watched, likes, dislikes, shares, and comments.
 
 The code reads in the dataset, creates a TF-IDF vector for the video titles, and calculates cosine similarity between the vectors to obtain a similarity matrix. It then uses the similarity matrix to find the most similar videos to those watched by a specific user. These similar videos are then assigned an engagement score based on their user time, likes, dislikes, shares, and number of times watched. The scores are aggregated to create a list of recommendations for each user.
