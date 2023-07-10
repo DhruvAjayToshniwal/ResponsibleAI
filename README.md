@@ -1,102 +1,27 @@
-# ResponsibleAI
-# Feedback Loop and Amplification in Recommendation Systems
+Analysis of Feedback Loop and Amplification in Recommendation Systems
+In this blog post, we will analyze the code provided, which simulates a recommendation system and explores the effects of feedback loop and amplification. The code generates a synthetic dataset of user video-watching behavior and implements a recommendation system based on user preferences and past viewing behavior. Let's dive into the details and discuss the key findings.
 
-This project explores the effects of feedback loop and amplification in recommendation systems, specifically for dangerous and harmful content on YouTube and TikTok.
+Simulation Overview
+The code simulates the behavior of users interacting with a recommendation system over a period of 9 days. It initializes user profiles, generates a dataset of videos with various attributes, and then processes the data in chunks. The recommendation system suggests videos to users based on their preferences and the similarity between video titles. The simulation tracks user engagement, recommended videos, dangerous videos watched, and more.
 
-## Table of Contents
+Findings and Insights
+1. Dangerous Content in Recommendations
+The simulation provides insights into the recommendation of dangerous videos. On the last day, we observe the number of dangerous videos recommended to and watched by each user. The graph titled "Dangerous Videos Recommended for All Users after the last day" shows the number of dangerous videos recommended to each user. Similarly, the graph titled "Dangerous Videos Watched by All Users on the last day" displays the number of dangerous videos watched by each user. These insights highlight the potential risks associated with feedback loop and amplification in recommendation systems, as they may lead to the propagation of harmful or dangerous content.
 
-1. [Project Concept](#project-concept)
-2. [Motivation & Context](#motivation--context)
-3. [System Definitions](#system-definitions)
-4. [Deployment of the System](#deployment-of-the-system)
-5. [Integration in the Organization Processes](#integration-in-the-organization-processes)
-6. [Case Study](#case-study)
-7. [Code](#code)
-8. [Auditing Plan](#auditing-plan)
+2. User Engagement and Video Recommendations
+The simulation tracks user engagement and the types of videos recommended. By analyzing user engagement metrics, such as the number of times a video is watched and engagement scores, we gain insights into user preferences and the impact of recommendation algorithms on user behavior. The graph titled "Unique Video Types Over Time" shows the number of unique video types watched by each user over the 9-day period. This analysis sheds light on the diversity of content consumed by users and the potential echo-chamber effects of recommendation systems.
 
-## Project Concept
+3. Variance in Video Recommendations
+An interesting aspect of the simulation is the analysis of variance in video recommendations over time. By calculating the variance of recommended videos for each user, we can assess the diversity or homogeneity of the recommendations. The graph titled "Mean Video Recommendation Variance Over Time" illustrates the mean recommendation variance across all users. This analysis helps us understand how the recommendation system evolves and whether it provides diverse or repetitive recommendations over time.
 
-The project aims to understand the feedback loop and amplification in recommendation systems, specifically on platforms like YouTube and TikTok, that may lead to the promotion of dangerous and harmful content.
+4. User Progression and Behavior
+The simulation also allows us to observe the progression and behavior of individual users. By tracking the number of videos watched by Giulia and Christopher over the 9-day period, we gain insights into their engagement and how it changes over time. The graph titled "Progress from day 1 to day 5 for Giulia and Christopher" visualizes the number of videos watched by these two users. This analysis provides a deeper understanding of user interactions and their response to recommended content.
 
-## Motivation & Context
+Conclusion
+The code simulation provides valuable insights into the effects of feedback loop and amplification in recommendation systems. By analyzing user engagement, recommended videos, dangerous content, and variance in recommendations, we gain a better understanding of the potential risks and challenges associated with these systems. These insights emphasize the importance of responsible AI practices to mitigate the promotion of harmful content, ensure diversity in recommendations, and prioritize user well-being.
 
-The problem of feedback loop and amplification in recommendation systems is important to solve because it can result in:
+Understanding the dynamics of recommendation systems and their impact on users is crucial for developing responsible and ethical AI technologies. Through continuous monitoring, analysis, and improvement, we can create recommendation systems that provide diverse, engaging, and safe content for users worldwide.
 
-- Missing diversity
-- Echo-chamber effects
-- Privacy concerns
+Please note that this analysis is based on a simulation and synthetic dataset. Further research and real-world data analysis are necessary to validate these findings and draw definitive conclusions.
 
-Stakeholders related to this problem and its solution include:
-
-- Consumers/users
-- Investors
-- Business holders
-- National interest/government
-
-## System Definitions
-
-The system's outputs are content recommendations (photos/videos) that viewers might enjoy.
-
-The specific decisions the system takes include:
-
-- Identifying user interests
-- Generating recommendations
-- Filtering recommendations
-- Personalizing user experiences
-- Promoting engagement
-
-The system accepts inputs like viewer interests (likes, shares, comments, time spent on app/video/post), and it requires data for storing user interests and training the recommendation system.
-
-Data is collected by tracking user actions, and while it is not tagged, self-supervision is utilized.
-
-## Deployment of the System
-
-The deployment of the system will be detailed in a later stage of the project.
-
-## Integration in the Organization Processes
-
-The integration of the system in the overall activity of the organization is not relevant at this stage of the project.
-
-## Case Study
-
-A 14-year-old girl from Napoli (Italy) was suffocated due to an allergic reaction to latex. Her mom found her in her room, unable to breathe, holding a wet condom. After rushing her to the ER, the mom scrolled through her daughter’s TikTok and YouTube apps to try and figure out what she was doing with a condom. She was shocked to see several videos of older teenagers attempting “The Condom Snorting Challenge”, in which one has to snort a condom through the nostril, then spit it out from the mouth. After the daughter’s condition was stabilized, the mom questioned her about the videos. The daughter was surprised, stating “I didn’t look for these, they just kept showing up. There are so many of them, it seems like everyone is doing this. Cosa c’è di strano, mamma?”
-
-## Code
-
-The code for this project can be found in this repository.
-
-Explanation 
-1) Data Generation Script:
-This is a Python script that generates a synthetic dataset of user video-watching behavior. The script creates a total of 75,000 rows of data across 5 different CSV files (15,000 rows per file) using the pandas library.
-
-The dataset consists of the following columns:
-
-User: the user who watched the video
-Title: the title of the video
-Duration: the duration of the video in minutes
-ViewCount: the number of views the video has
-UserTime: the total amount of time the user spent watching the video, in minutes
-NumberOfTimesWatched: the number of times the user watched the video
-Likes: the number of likes the video received
-Dislikes: the number of dislikes the video received
-Shares: the number of times the video was shared
-Comments: the number of comments the video received
-The video titles are generated randomly based on a set of predefined video types, challenges, and uploaders. Certain users (in this case, the user "Giulia") have a higher likelihood of watching videos of a certain type, and may also be recommended certain videos based on their past viewing behavior.
-
-This dataset could be used for various purposes, such as building a recommendation system or analyzing patterns in user video-watching behavior.
-
-2) Recommendation System:
-This code snippet uses a recommendation system to suggest top 3 videos for a list of users based on their video-watching history. The dataset is generated using random sampling and consists of information about users, video titles, duration, view count, user time, number of times watched, likes, dislikes, shares, and comments.
-
-The code reads in the dataset, creates a TF-IDF vector for the video titles, and calculates cosine similarity between the vectors to obtain a similarity matrix. It then uses the similarity matrix to find the most similar videos to those watched by a specific user. These similar videos are then assigned an engagement score based on their user time, likes, dislikes, shares, and number of times watched. The scores are aggregated to create a list of recommendations for each user.
-
-The output of the code is a list of top 3 video recommendations for each user. These recommendations are generated using data from five different datasets to increase the size of the dataset and improve the accuracy of the recommendations.
-
-## Auditing Plan
-
-The auditing plan will be developed at a later stage of the project, considering the following aspects:
-
-- Audit objectives
-- Auditors
-- What is being audited and when
-- Methods, tools, metrics, and standards
+Feel free to explore the code and adapt it for further analysis or experimentation. Responsible AI practices and continuous improvement are essential to ensure the well-being and satisfaction of users in an increasingly interconnected digital world.
